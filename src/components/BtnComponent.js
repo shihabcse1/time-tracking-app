@@ -8,7 +8,7 @@ function BtnComponent(props) {
                     className="stopwatch-btn stopwatch-btn-gre"
                     onClick={props.start}
                 >
-                    Start
+                    Start Tracking
                 </button>
             ) : (
                 ""
@@ -18,15 +18,15 @@ function BtnComponent(props) {
                 <div>
                     <button
                         className="stopwatch-btn stopwatch-btn-red"
-                        onClick={props.stop}
+                        onClick={props.pause}
                     >
-                        Stop
+                        Pause Tracking
                     </button>
                     <button
                         className="stopwatch-btn stopwatch-btn-yel"
                         onClick={props.reset}
                     >
-                        Reset
+                        Reset Tracking
                     </button>
                 </div>
             ) : (
@@ -39,13 +39,13 @@ function BtnComponent(props) {
                         className="stopwatch-btn stopwatch-btn-gre"
                         onClick={props.resume}
                     >
-                        Resume
+                        Resume Tracking
                     </button>
                     <button
                         className="stopwatch-btn stopwatch-btn-yel"
                         onClick={props.reset}
                     >
-                        Reset
+                        Reset Tracking
                     </button>
                 </div>
             ) : (

@@ -1,5 +1,3 @@
-import React from "react";
-
 function BtnComponent(props) {
     return (
         <div>
@@ -24,9 +22,9 @@ function BtnComponent(props) {
                     </button>
                     <button
                         className="stopwatch-btn stopwatch-btn-yel"
-                        onClick={props.reset}
+                        onClick={props.stop}
                     >
-                        Reset Tracking
+                        Stop Track
                     </button>
                 </div>
             ) : (
@@ -43,9 +41,9 @@ function BtnComponent(props) {
                     </button>
                     <button
                         className="stopwatch-btn stopwatch-btn-yel"
-                        onClick={props.reset}
+                        onClick={props.stop}
                     >
-                        Reset Tracking
+                        Stop Track
                     </button>
                 </div>
             ) : (

@@ -1,12 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import BtnComponent from "./components/BtnComponent";
 import DisplayComponent from "./components/DisplayComponent";
+import TrackingTable from "./components/TrackingTable";
 
 function App() {
     const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
     const [interv, setInterv] = useState();
     const [status, setStatus] = useState(0);
+
+    const [reports, setReports] = useState([]);
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/`)
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data);
+                setReports(data);
+            });
+    }, []);
+
     // Not started = 0
     // started = 1
     // stopped = 2
@@ -49,7 +64,7 @@ function App() {
         setStatus(2);
     };
 
-    const reset = () => {
+    const stop = () => {
         clearInterval(interv);
         setStatus(0);
         setTime({ ms: 0, s: 0, m: 0, h: 0 });
@@ -64,13 +79,19 @@ function App() {
                     <BtnComponent
                         status={status}
                         resume={resume}
-                        reset={reset}
+                        stop={stop}
                         pause={pause}
                         start={start}
                     />
                     <br></br>
                     <DisplayComponent time={time} />
                 </div>
+            </div>
+            <div className="table-holder">
+                <TrackingTable
+                    key={reports.session_id}
+                    reports={reports}
+                ></TrackingTable>
             </div>
         </div>
     );

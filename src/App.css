@@ -23,6 +23,12 @@ body {
     position: relative;
 }
 
+.table-holder {
+    width: 100%;
+    background: #fff;
+    position: relative;
+}
+
 .stopwatch {
     padding: 60px 0px;
     text-align: center;
@@ -46,7 +52,7 @@ body {
     padding: 12px 20px;
     font-size: 16px;
     text-transform: uppercase;
-    width: 220px;
+    width: 200px;
     transition: background 1s;
     cursor: pointer;
 }

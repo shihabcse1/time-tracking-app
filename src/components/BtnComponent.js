@@ -1,14 +1,31 @@
+import { useState } from "react";
+
 function BtnComponent(props) {
+    const [pauseNumber, setPauseNumber] = useState(0);
+
+    //increase counter
+    const increasePauseNumber = () => {
+        setPauseNumber((count) => count + 1);
+    };
+
+    //reset counter
+    const resetPauseNumber = () => {
+        setPauseNumber(0);
+    };
+
+    const pauseCounterActions = () => {
+        props.pause();
+        increasePauseNumber();
+    };
+
     const onSubmit = async (e) => {
         e.preventDefault();
-
         const report = {
             session_id: "34",
             date: "23/3/23",
             total_time: 300,
-            total_pause: 5,
+            total_pause: pauseNumber,
         };
-        //console.log(JSON.stringify(report));
         // send to your database
 
         fetch("http://localhost:5000/", {
@@ -21,6 +38,7 @@ function BtnComponent(props) {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Success:", data);
+                resetPauseNumber();
                 props.stop();
             })
             .catch((error) => {
@@ -30,6 +48,7 @@ function BtnComponent(props) {
 
     return (
         <div>
+            <h1>{pauseNumber}</h1>
             {props.status === 0 ? (
                 <button
                     className="stopwatch-btn stopwatch-btn-gre"
@@ -45,13 +64,12 @@ function BtnComponent(props) {
                 <div>
                     <button
                         className="stopwatch-btn stopwatch-btn-red"
-                        onClick={props.pause}
+                        onClick={pauseCounterActions}
                     >
                         Pause Tracking
                     </button>
                     <button
                         className="stopwatch-btn stopwatch-btn-yel"
-                        //onClick={props.stop}
                         onClick={onSubmit}
                     >
                         Stop Track
@@ -71,6 +89,7 @@ function BtnComponent(props) {
                     </button>
                     <button
                         className="stopwatch-btn stopwatch-btn-yel"
+                        //onClick={props.stop}
                         onClick={onSubmit}
                     >
                         Stop Track

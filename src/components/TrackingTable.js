@@ -15,8 +15,11 @@ function TrackingTable({ reports }) {
                 {reports.map((a, index) => (
                     <tr>
                         <td>{a.session_id}</td>
-                        <td>{a.Date}</td>
-                        <td>{a.total_time}</td>
+                        <td>{a.date}</td>
+                        <td>
+                            {Math.floor(parseInt(a.total_time) / 3600)}h{" "}
+                            {Math.floor((parseInt(a.total_time) % 3600) / 60)}m
+                        </td>
                         <td>{a.total_pause}</td>
                     </tr>
                 ))}

@@ -2,6 +2,32 @@ import { useState } from "react";
 
 function BtnComponent(props) {
     const [pauseNumber, setPauseNumber] = useState(0);
+    const [startTime, setStartTime] = useState(0);
+    const [pauseTime, setPauseTime] = useState(0);
+    const [totalTimeCount, setTotalTimeCount] = useState(0);
+    const [date, setDate] = useState(0);
+
+    const totalTimeTrack = () => {
+        const timeInMilliSeconds = new Date();
+        const dateOfToday =
+            timeInMilliSeconds.getDate() +
+            "/" +
+            timeInMilliSeconds.getMonth() +
+            "/" +
+            timeInMilliSeconds.getFullYear();
+        setDate(dateOfToday);
+    };
+
+    const trackDate = () => {
+        const timeInMilliSeconds = new Date();
+        const dateOfToday =
+            timeInMilliSeconds.getDate() +
+            "/" +
+            timeInMilliSeconds.getMonth() +
+            "/" +
+            timeInMilliSeconds.getFullYear();
+        setDate(dateOfToday);
+    };
 
     //increase counter
     const increasePauseNumber = () => {
@@ -13,17 +39,40 @@ function BtnComponent(props) {
         setPauseNumber(0);
     };
 
-    const pauseCounterActions = () => {
-        props.pause();
+    const timeFunction = () => {
+        return Math.floor(Date.now() / 1000);
+    };
+
+    const pauseTrackerActions = () => {
+        setPauseTime(timeFunction());
+        setTotalTimeCount(totalTimeCount + (timeFunction() - startTime));
         increasePauseNumber();
+        props.pause();
+    };
+
+    const startTrackerActions = () => {
+        trackDate();
+        props.start();
+        setStartTime(timeFunction());
+    };
+
+    const resumeTrackerActions = () => {
+        props.resume();
+        setStartTime(timeFunction());
+    };
+
+    const stopTrackerActions = () => {
+        setStartTime(0);
+        setPauseTime(0);
+        setTotalTimeCount(0);
     };
 
     const onSubmit = async (e) => {
         e.preventDefault();
         const report = {
             session_id: "34",
-            date: "23/3/23",
-            total_time: 300,
+            date: date,
+            total_time: totalTimeCount,
             total_pause: pauseNumber,
         };
         // send to your database
@@ -39,6 +88,8 @@ function BtnComponent(props) {
             .then((data) => {
                 console.log("Success:", data);
                 resetPauseNumber();
+                trackDate();
+                stopTrackerActions();
                 props.stop();
             })
             .catch((error) => {
@@ -48,11 +99,10 @@ function BtnComponent(props) {
 
     return (
         <div>
-            <h1>{pauseNumber}</h1>
             {props.status === 0 ? (
                 <button
                     className="stopwatch-btn stopwatch-btn-gre"
-                    onClick={props.start}
+                    onClick={startTrackerActions}
                 >
                     Start Tracking
                 </button>
@@ -64,7 +114,7 @@ function BtnComponent(props) {
                 <div>
                     <button
                         className="stopwatch-btn stopwatch-btn-red"
-                        onClick={pauseCounterActions}
+                        onClick={pauseTrackerActions}
                     >
                         Pause Tracking
                     </button>
@@ -83,7 +133,7 @@ function BtnComponent(props) {
                 <div>
                     <button
                         className="stopwatch-btn stopwatch-btn-gre"
-                        onClick={props.resume}
+                        onClick={resumeTrackerActions}
                     >
                         Resume Tracking
                     </button>
